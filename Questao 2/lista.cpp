@@ -7,6 +7,14 @@ using namespace std;
 
 TipoLista* cria_lista() {
     TipoLista* lista = (TipoLista*) malloc(sizeof(TipoLista));
+
+    if (lista == NULL) {
+        cout << "A alocacao falhou!" << endl;
+        return NULL;
+    } else {
+        cout << "Alocacao feita com sucesso!\n" << endl;
+    }
+
     return lista;
 }
 
@@ -16,49 +24,87 @@ void FLVazia(TipoLista* lista) {
     lista->primeiro->prox = NULL; // como uma instância, a variável "primeiro" pode acessar o campo "prox"
 }
 
-int Vazia(TipoLista* lista) {
+bool Vazia(TipoLista* lista) {
     return(lista->primeiro == lista->ultimo);
 }
 
-void insere_celula(TipoItem *item, TipoLista* lista, Apontador E) { // Apontador já é ponteiro, logo E também vira um; E recebe o endereço da célula que irá receber a nova célula após ela
-    TipoCelula* novo = (TipoCelula*) malloc(sizeof(TipoCelula)); // nova celula para ser adicionada
-    novo->item = *item; // adicionando no campo item da nova celula
-    novo->prox = E->prox; // novo aponta pra célula posterior à E
-    E->prox = novo; // recebe endereço da nova celula
+void insere_celula(TipoItem item, TipoLista *lista, Apontador E) {
+    Apontador novo = (Apontador) malloc(sizeof(TipoCelula));
 
-    if(lista->primeiro->prox == NULL) { // se a lista estiver vazia; se E for o inicio
-        novo->prox = NULL; // campo prox da nova celula = null
+    if (novo == NULL) {
+        cout << "A alocacao falhou!" << endl;
+        return;
+    } else {
+        cout << "Alocacao feita com sucesso!" << endl;
     }
 
-    if(lista->ultimo == E) { // se E for o final
-        lista->ultimo = novo; // campo ultimo aponta pra nova célula adicionada
+    novo->item = item;
+
+    if (lista->primeiro->prox == NULL) {
+        lista->ultimo = novo;
+    }
+
+    if (lista->primeiro == E) {
+        novo->prox = E->prox;
+        E->prox = novo;
+
+    } else if (lista->ultimo == E) {
+        lista->ultimo->prox = novo;
         novo->prox = NULL;
+        lista->ultimo = novo;
     }
 }
 
-TipoCelula* busca_celula(TipoLista* lista, TipoChave chave) {
-    TipoCelula* busca = (Apontador) malloc(sizeof(TipoCelula));
-    busca->item.chave = chave;
-    for(Apontador p = lista->primeiro->prox; p != NULL; p = p->prox) {
-        if(p->item.chave == busca->item.chave) {
-            return busca;
+void remove_celula(TipoItem item, TipoLista *lista) {
+    if(lista->primeiro->prox == NULL) {
+        cout << "A lista esta vazia!" << endl;
+
+    } else {
+        Apontador lixo = lista->primeiro->prox;
+        Apontador ant = lista->primeiro;
+
+        while(lixo != NULL) {
+            if(lixo->item.chave == item.chave) {
+                break;
+            }
+            ant = lixo;
+            lixo = lixo->prox;
+        }
+
+        if(lixo == NULL) {
+            cout << "O elemento nao foi encontrado!" << endl;
+
+        } else {
+            ant->prox = lixo->prox;
+
+            if(lista->ultimo == lixo) {
+                lista->ultimo = ant;
+            }
+
+            cout << "Elemento removido: " << lixo->item.chave << endl;
+
+            free(lixo);
         }
     }
-
-    return NULL;
 }
 
-void remove_celula(TipoLista* lista, TipoChave chave){
-    TipoCelula* lixo = (Apontador) malloc(sizeof(TipoCelula));
-    lixo->item.chave = chave;
-    if(busca_celula(lista, chave) == lixo) {
-        cout << lixo->item.chave << endl;
-        free(lixo);
+void print_all(TipoLista* lista){
+    if (lista->primeiro->prox == NULL) {
+        cout << "Lista vazia!" << endl;
+
+    } else {
+        int i = 1;
+
+        cout << "Valores na lista: " << endl;
+        Apontador print = (Apontador) malloc(sizeof(TipoCelula));
+
+        for (print = lista->primeiro->prox; print != NULL; print = print->prox) {
+            cout << "Elemento na posicao " << i << ": " << print->item.chave << endl;
+            i++;
+        }
     }
 }
 
 void libera_lista(TipoLista* lista) {
     free(lista);
 }
-
-/* -- CHECKPOINT DO PROGRESSO -- */

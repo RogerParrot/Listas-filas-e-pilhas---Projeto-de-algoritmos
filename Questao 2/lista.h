@@ -20,8 +20,8 @@ typedef struct {
 
 TipoLista* cria_lista();
 void FLVazia(TipoLista*);
-int Vazia(TipoLista*);
-void insere_celula(TipoLista*, TipoCelula*, Apontador);
-TipoCelula* busca_celula(TipoLista*, TipoChave);
-void remove_celula(TipoLista*);
+bool Vazia(TipoLista*);
+void insere_celula(TipoItem, TipoLista*, Apontador);
+void remove_celula(TipoItem, TipoLista*);
+void print_all(TipoLista*);
 void libera_lista(TipoLista*);
