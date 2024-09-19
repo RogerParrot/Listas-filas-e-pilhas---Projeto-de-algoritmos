@@ -8,6 +8,7 @@ using namespace std;
 
 // Para criar uma pilha
 TipoPilha *InicializaPilha() {
+  // Aloca memória para a pilha
   TipoPilha *Pilha = (TipoPilha *)malloc(sizeof(TipoPilha));
   return Pilha;
 }
@@ -23,15 +24,20 @@ int Tamanho_pilha(TipoPilha *Pilha) { return (Pilha->Topo); }
 
 // Função para empilhar (adicionar) um caractere
 void Empilhar(char caractere, char *pilha, int &topo) {
+  // Incrementa o topo
   topo++;
+  // Adiciona o caractere no topo da pilha
   pilha[topo] = caractere;
 }
 
+// Retorna o caractere do topo, ou seja, o último a ser adicionado
 char verTopo(char *pilha, int topo) { return pilha[topo]; }
 
 // Função para desempilhar (remover) o caractere do topo e retorná-lo
 char Desempilhar(char *pilha, int &topo) {
+  // Retorna o caractere do topo
   char valor = pilha[topo];
+  // Decrementa o topo
   topo--;
   return valor;
 }

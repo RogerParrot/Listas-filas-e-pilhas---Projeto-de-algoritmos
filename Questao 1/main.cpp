@@ -116,8 +116,8 @@ int main() {
       // Para checar se a pilha não está vazia
       if (topo != -1) {
         // Desempilha 
-        char removido = Desempilhar(pilha, topo);
-        palavra.pop_back(); // Atualizar a string da palavra
+        char removido = Desempilhar(pilha, topo); // Aqui garantimos a retirada do caractere
+        palavra.pop_back(); // Atualizar a string da palavra, foi necessário usar o pop_back() para somente retirar da palavra devido ao fato de haver inconsistência caso fosse feito com uma função comum na forma TAD.
         cout << "Caractere '" << removido << "' removido do topo." << endl;
       } else {
         cout << "A pilha está vazia. Nada para remover." << endl;
